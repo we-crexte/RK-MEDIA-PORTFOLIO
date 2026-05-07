@@ -11,8 +11,8 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="py-20 px-6 md:px-10 border-y border-white/5 bg-black/50">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
+    <section className="py-14 sm:py-20 px-4 sm:px-6 md:px-10 border-y border-white/5 bg-black/50">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
         {stats.map((stat, i) => (
           <Counter key={i} stat={stat} />
         ))}
@@ -49,10 +49,10 @@ function Counter({ stat }: { stat: typeof stats[0], key?: any }) {
 
   return (
     <div ref={ref} className="text-center">
-      <div className="text-5xl md:text-7xl font-bold mb-4 tracking-tighter">
+      <div className="text-3xl sm:text-5xl md:text-7xl font-bold mb-2 sm:mb-4 tracking-tighter">
         {count}{stat.suffix}
       </div>
-      <div className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-30">
+      <div className="text-[8px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] opacity-30">
         {stat.label}
       </div>
     </div>

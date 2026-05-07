@@ -58,10 +58,10 @@ export default function App() {
   });
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-accent selection:text-white overflow-hidden">
+    <div className="bg-black text-white min-h-screen font-sans selection:bg-accent selection:text-white overflow-x-hidden">
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-accent z-[100] origin-left"
+        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-accent to-accent-purple z-[100] origin-left"
         style={{ scaleX }}
       />
 
@@ -81,17 +81,17 @@ export default function App() {
 
       <Footer />
       
-      {/* Floating Socials */}
-      <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
-        <SocialButton icon={<Instagram size={20} />} href="#" color="hover:bg-pink-600" />
-        <SocialButton icon={<WhatsApp size={20} />} href="#" color="hover:bg-green-600" />
-        <SocialButton icon={<Twitter size={20} />} href="#" color="hover:bg-blue-400" />
+      {/* Floating Socials — hidden on mobile to avoid overlap */}
+      <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[90] hidden md:flex flex-col gap-3">
+        <SocialButton icon={<Instagram size={18} />} href="https://www.instagram.com/sniper.844" color="hover:bg-pink-600" />
+        <SocialButton icon={<WhatsApp size={18} />} href="https://wa.me/916306087590" color="hover:bg-green-600" />
+        <SocialButton icon={<Twitter size={18} />} href="https://x.com/roshan_editor53" color="hover:bg-blue-400" />
       </div>
 
       {/* Global Background Atmosphere */}
       <div className="fixed inset-0 atmosphere pointer-events-none -z-10" />
       
-      {/* Custom Mouse Cursor Glow */}
+      {/* Custom Mouse Cursor Glow — desktop only */}
       <CursorGlow />
     </div>
   );
@@ -105,7 +105,7 @@ function SocialButton({ icon, href, color }: { icon: any, href: string, color: s
       rel="noopener noreferrer"
       whileHover={{ scale: 1.1, x: -5 }}
       whileTap={{ scale: 0.9 }}
-      className={`w-12 h-12 glass rounded-full flex items-center justify-center transition-colors ${color} hover:text-white`}
+      className={`w-11 h-11 glass-strong rounded-full flex items-center justify-center transition-colors ${color} hover:text-white`}
     >
       {icon}
     </motion.a>
@@ -116,6 +116,10 @@ function CursorGlow() {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Only enable on non-touch devices
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouch) return;
+
     const moveCursor = (e: MouseEvent) => {
       if (!cursorRef.current) return;
       gsap.to(cursorRef.current, {
@@ -133,7 +137,7 @@ function CursorGlow() {
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 w-[500px] h-[500px] -translate-x-1/2 -translate-y-1/2 bg-accent/10 rounded-full blur-[120px] pointer-events-none z-[-5]"
+      className="fixed top-0 left-0 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2 bg-accent/8 rounded-full blur-[120px] pointer-events-none z-[-5] hidden md:block"
     />
   );
 }

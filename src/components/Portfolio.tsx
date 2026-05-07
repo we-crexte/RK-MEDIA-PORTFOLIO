@@ -67,20 +67,20 @@ export function Portfolio() {
   return (
     <section id="portfolio" className="bg-black">
       {/* Exclusive Showreel Section */}
-      <div id="showreel" className="py-20 px-10 border-b border-white/5 bg-gradient-to-b from-black to-zinc-950">
+      <div id="showreel" className="py-20 px-6 md:px-10 border-b border-white/5 bg-gradient-to-b from-black to-zinc-950">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
             <span className="text-xs font-black uppercase tracking-[0.6em] text-white/60 border-l-2 border-accent pl-4">/ Portfolio</span>
           </div>
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 md:gap-6">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.4em] text-accent mb-4">The Work</div>
               <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-tight">
-                Most <span className="text-accent glow-text">Exclusive</span> <br />
+                Most <span className="text-accent glow-text">Exclusive</span> <br className="hidden md:block" />
                 <span className="opacity-30">Production.</span>
               </h2>
             </div>
-            <div className="max-w-xs text-white/40 text-sm uppercase tracking-widest font-bold md:text-right">
+            <div className="max-w-xs text-white/40 text-[10px] md:text-sm uppercase tracking-widest font-bold md:text-right">
               A cinematic journey through high-octane visual storytelling. 
               Featured Selection / 2024
             </div>
@@ -90,7 +90,7 @@ export function Portfolio() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative aspect-video rounded-[2.5rem] overflow-hidden group cursor-pointer border border-white/5"
+            className="relative aspect-video rounded-3xl md:rounded-[2.5rem] overflow-hidden group cursor-pointer border border-white/5"
           >
             <img 
               src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200" 
@@ -119,13 +119,13 @@ export function Portfolio() {
       {/* Horizontal Scrolling Portfolio */}
       <div className="overflow-hidden">
         <div ref={triggerRef}>
-          <div ref={containerRef} className="h-screen flex items-center px-[5vw] gap-10 lg:gap-20">
-            <div className="flex-shrink-0 w-[400px]">
-              <h2 className="text-8xl font-bold uppercase tracking-tighter leading-none mb-6">
+          <div ref={containerRef} className="h-screen flex items-center px-[10vw] gap-10 lg:gap-20">
+            <div className="flex-shrink-0 w-[280px] md:w-[400px]">
+              <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-none mb-6">
                 Selected <br />
                 <span className="text-accent">Works.</span>
               </h2>
-              <p className="text-white/40 uppercase tracking-widest text-xs font-bold font-sans">
+              <p className="text-white/40 uppercase tracking-widest text-[10px] md:text-sm font-bold font-sans">
                 Explore All Projects / Vol 01
               </p>
             </div>
@@ -134,10 +134,10 @@ export function Portfolio() {
               <ProjectCard key={index} project={project} />
             ))}
 
-            <div className="flex-shrink-0 w-[400px] flex flex-col justify-center">
-              <div className="p-10 glass rounded-3xl border-accent/20 text-center">
-                <h3 className="text-3xl font-bold mb-4">READY TO CREATE?</h3>
-                <a href="#contact" className="inline-block px-8 py-4 bg-white text-black font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all">
+            <div className="flex-shrink-0 w-[280px] md:w-[400px] flex flex-col justify-center">
+              <div className="p-8 md:p-10 glass rounded-3xl border-accent/20 text-center">
+                <h3 className="text-xl md:text-3xl font-bold mb-4 uppercase tracking-tighter">READY TO CREATE?</h3>
+                <a href="#contact" className="inline-block px-6 py-3 md:px-8 md:py-4 bg-white text-black text-xs md:text-sm font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all">
                   Contact Me
                 </a>
               </div>
@@ -152,7 +152,7 @@ export function Portfolio() {
 function ProjectCard({ project }: { project: typeof projects[0], key?: any }) {
   return (
     <motion.div 
-      className="flex-shrink-0 w-[80vw] md:w-[600px] h-[400px] group relative overflow-hidden rounded-3xl"
+      className="flex-shrink-0 w-[85vw] md:w-[600px] h-[300px] md:h-[400px] group relative overflow-hidden rounded-3xl"
       whileHover={{ scale: 0.98 }}
       transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
     >

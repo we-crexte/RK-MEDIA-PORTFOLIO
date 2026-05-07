@@ -3,19 +3,19 @@ import { Mail, Instagram, MessageSquare, Send } from 'lucide-react';
 
 export function Contact() {
   return (
-    <section id="contact" className="py-20 px-10 relative">
+    <section id="contact" className="py-20 px-6 md:px-10 relative">
       <div className="max-w-7xl mx-auto mb-16">
         <span className="text-xs font-black uppercase tracking-[0.6em] text-white/60 border-l-2 border-accent pl-4">/ Contact</span>
       </div>
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-20">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.4em] text-accent mb-6">Let's Connect</div>
-            <h2 className="text-6xl md:text-8xl font-bold uppercase tracking-tighter leading-[0.85] mb-10">
+            <h2 className="text-5xl md:text-8xl font-bold uppercase tracking-tighter leading-[0.85] mb-10">
               Ready to <br />
               <span className="text-accent glow-text">Level Up?</span>
             </h2>
-            <p className="text-xl text-white/40 font-light leading-relaxed mb-12">
+            <p className="text-lg md:text-xl text-white/40 font-light leading-relaxed mb-12">
               Whether you're a high-octane automotive brand or a digital creator pushing limits, let's build something unforgettable.
             </p>
             
@@ -26,7 +26,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="p-10 glass rounded-[2.5rem] border-white/5 relative">
+          <div className="p-8 md:p-10 glass rounded-[2rem] md:rounded-[2.5rem] border-white/5 relative">
             <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest opacity-40">Your Name</label>
@@ -75,7 +75,7 @@ function ContactLink({ icon, label, value, href }: { icon: any, label: string, v
       </div>
       <div>
         <div className="text-[10px] uppercase font-bold tracking-widest opacity-30 mb-1">{label}</div>
-        <div className="text-xl font-medium tracking-tight group-hover:text-accent transition-colors">{value}</div>
+        <div className="text-base md:text-xl font-medium tracking-tight group-hover:text-accent transition-colors break-all md:break-normal">{value}</div>
       </div>
     </a>
   );

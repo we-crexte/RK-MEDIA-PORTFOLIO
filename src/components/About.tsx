@@ -5,16 +5,16 @@ export function About() {
   const constraintsRef = useRef(null);
 
   return (
-    <section id="about" className="py-20 px-10 relative">
+    <section id="about" className="py-20 px-6 md:px-10 relative">
       <div className="max-w-7xl mx-auto mb-16">
         <span className="text-xs font-black uppercase tracking-[0.6em] text-white/60 border-l-2 border-accent pl-4">/ About</span>
       </div>
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-20 items-center">
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="relative aspect-square order-2 md:order-1"
+          className="relative aspect-[4/3] md:aspect-square order-2 md:order-1"
           ref={constraintsRef}
         >
           <div className="absolute inset-0 bg-accent/20 rounded-full blur-[100px] animate-pulse" />
@@ -32,7 +32,7 @@ export function About() {
             />
             <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black to-transparent">
               <div className="text-sm font-bold uppercase tracking-widest">Lead Editor</div>
-              <div className="text-xs opacity-50">VZN Studios</div>
+              <div className="text-xs opacity-50">RK MEDIA</div>
             </div>
           </motion.div>
           {/* Decorative floating elements */}

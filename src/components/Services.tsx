@@ -30,25 +30,25 @@ const services = [
 
 export function Services() {
   return (
-    <section id="services" className="py-20 px-10 relative overflow-hidden">
+    <section id="services" className="py-20 px-6 md:px-10 relative overflow-hidden">
       <div className="max-w-7xl mx-auto mb-16">
         <span className="text-xs font-black uppercase tracking-[0.6em] text-white/60 border-l-2 border-accent pl-4">/ Services</span>
       </div>
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-8">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.4em] text-accent mb-4">What I Do</div>
             <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-none">
-              Premium <br />
+              Premium <br className="hidden md:block" />
               <span className="opacity-30">Post-Production.</span>
             </h2>
           </div>
-          <p className="max-w-md text-white/40 text-lg leading-relaxed md:text-right">
+          <p className="max-w-md text-white/40 text-[10px] md:text-lg leading-relaxed md:text-right uppercase tracking-[0.1em] font-bold">
             Providing end-to-end video production services that turn standard footage into visual masterpieces.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, i) => (
             <motion.div
               key={i}

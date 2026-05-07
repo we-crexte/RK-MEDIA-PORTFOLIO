@@ -13,7 +13,7 @@ const clients = [
 export function ClientMarquee() {
   return (
     <section className="pt-20 pb-10 bg-black border-t border-white/5 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-10 mb-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 mb-16">
         <div className="text-xs font-bold uppercase tracking-[0.4em] text-accent mb-4">Trusted By</div>
         <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter leading-none">
           Creators.

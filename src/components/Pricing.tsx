@@ -39,7 +39,7 @@ export function Pricing() {
   };
 
   return (
-    <section id="pricing" className="py-24 px-10 relative">
+    <section id="pricing" className="py-24 px-6 md:px-10 relative">
       <div className="max-w-7xl mx-auto mb-16">
         <span className="text-xs font-black uppercase tracking-[0.6em] text-white/60 border-l-2 border-accent pl-4">/ Pricing</span>
       </div>
@@ -52,7 +52,7 @@ export function Pricing() {
           <p className="text-white/40 max-w-xl mx-auto">Flexible investment plans designed to scale your vision to the next dimension.</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8 mb-12">
           {plans.map((plan, i) => (
             <motion.div
               key={i}
@@ -111,15 +111,15 @@ export function Pricing() {
               exit={{ opacity: 0, y: -50, height: 0 }}
               className="overflow-hidden mb-12"
             >
-              <div className="p-10 lg:p-20 glass rounded-[3.5rem] border border-accent/30 relative">
+              <div className="p-8 lg:p-20 glass rounded-[2rem] lg:rounded-[3.5rem] border border-accent/30 relative">
                 <button 
                   onClick={() => setSelectedPlan(null)}
-                  className="absolute top-10 right-10 p-4 rounded-full glass hover:bg-white/10 transition-colors"
+                  className="absolute top-6 right-6 lg:top-10 lg:right-10 p-3 lg:p-4 rounded-full glass hover:bg-white/10 transition-colors"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
 
-                <div className="grid lg:grid-cols-2 gap-20">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-20">
                   <div>
                     <div className="px-4 py-1 bg-accent/20 border border-accent/30 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 inline-block text-accent">
                       Step 2: Project Details

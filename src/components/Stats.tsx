@@ -11,7 +11,7 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="py-32 px-10 border-y border-white/5 bg-black/50">
+    <section className="py-20 px-6 md:px-10 border-y border-white/5 bg-black/50">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
         {stats.map((stat, i) => (
           <Counter key={i} stat={stat} />

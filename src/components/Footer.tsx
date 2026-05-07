@@ -19,7 +19,9 @@ export function Footer() {
         </div>
         
         <div className="text-right">
-           <div className="text-[10px] uppercase font-bold tracking-[0.3em] opacity-20 mb-2">Developed at AI Studio</div>
+           <div className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/40 mb-2">
+             Developed by <span className="text-accent underline underline-offset-4 decoration-accent/30 transition-colors hover:text-white">WE CREATE</span>
+           </div>
            <div className="text-xs font-mono opacity-10 uppercase font-sans">127.0.0.1:0024</div>
         </div>
       </div>

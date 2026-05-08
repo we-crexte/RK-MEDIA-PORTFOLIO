@@ -2,164 +2,273 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const selectedWorks = [
-  {
-    title: 'Neon Nights',
-    category: 'Cinematic Edits',
-    thumbnail: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800',
-    color: '#3b82f6',
-  },
-  {
-    title: 'Cyberpunk Montage',
-    category: 'Gaming Montages',
-    thumbnail: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800',
-    color: '#a855f7',
-  },
-  {
-    title: 'Urban Drift',
-    category: 'Car Edits',
-    thumbnail: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800',
-    color: '#ec4899',
-  },
-  {
-    title: 'Future Tech',
-    category: 'Reels Editing',
-    thumbnail: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
-    color: '#10b981',
-  },
-  {
-    title: 'Wild Nature',
-    category: 'Cinematic Trailers',
-    thumbnail: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800',
-    color: '#f59e0b',
-  },
+interface VideoProject {
+  title: string;
+  category: string;
+  src: string;
+  color: string;
+  description: string;
+}
+
+const longFormProjects: VideoProject[] = [
+  { title: 'Cinematic Cut I',   category: 'Long Form Edit', src: '/videos/1.mp4',  color: '#3b82f6', description: 'Full-length cinematic production' },
+  { title: 'Cinematic Cut II',  category: 'Long Form Edit', src: '/videos/2.mp4',  color: '#a855f7', description: 'Dramatic visual storytelling' },
+  { title: 'Cinematic Cut III', category: 'Long Form Edit', src: '/videos/3.mp4',  color: '#ec4899', description: 'High-octane visual narrative' },
+  { title: 'Cinematic Cut IV',  category: 'Long Form Edit', src: '/videos/4.mp4',  color: '#10b981', description: 'Immersive cinematic motion' },
+  { title: 'Cinematic Cut V',   category: 'Long Form Edit', src: '/videos/5.mp4',  color: '#f59e0b', description: 'Epic production reel' },
 ];
 
-const longFormProjects = [
-  {
-    title: 'Cinematic Drift',
-    category: 'Long Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800',
-    color: '#3b82f6',
-  },
-  {
-    title: 'Urban Legends',
-    category: 'Long Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800',
-    color: '#a855f7',
-  },
-  {
-    title: 'Neon Pulse',
-    category: 'Long Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
-    color: '#ec4899',
-  },
-  {
-    title: 'Into The Wild',
-    category: 'Long Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=80&w=800',
-    color: '#10b981',
-  },
-  {
-    title: 'City After Dark',
-    category: 'Long Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=800',
-    color: '#f59e0b',
-  },
+const shortFormProjects: VideoProject[] = [
+  { title: 'Reel Edit I',   category: 'Short Form · Reel', src: '/videos/7.mp4',  color: '#f43f5e', description: 'Viral reel cut' },
+  { title: 'Reel Edit II',  category: 'Short Form · Reel', src: '/videos/8.mp4',  color: '#06b6d4', description: 'Trending social content' },
+  { title: 'Reel Edit III', category: 'Short Form · Reel', src: '/videos/9.mp4',  color: '#84cc16', description: 'Fast-paced quick cuts' },
+  { title: 'Reel Edit IV',  category: 'Short Form · Reel', src: '/videos/10.mp4', color: '#f97316', description: 'Social media ready' },
+  { title: 'Reel Edit V',   category: 'Short Form · Reel', src: '/videos/6.mp4',  color: '#8b5cf6', description: 'Flash story format' },
 ];
 
-const shortFormProjects = [
-  {
-    title: 'Reel One',
-    category: 'Short Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&q=80&w=800',
-    color: '#f43f5e',
-  },
-  {
-    title: 'Reel Two',
-    category: 'Short Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&q=80&w=800',
-    color: '#06b6d4',
-  },
-  {
-    title: 'Viral Cut',
-    category: 'Short Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1536240478700-b869ad10e2c0?auto=format&fit=crop&q=80&w=800',
-    color: '#84cc16',
-  },
-  {
-    title: 'Snap Edit',
-    category: 'Short Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&q=80&w=800',
-    color: '#f97316',
-  },
-  {
-    title: 'Flash Story',
-    category: 'Short Form Edit',
-    thumbnail: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?auto=format&fit=crop&q=80&w=800',
-    color: '#8b5cf6',
-  },
-];
+// ─── Video Card (Landscape — Long Form) ───────────────────────────────────────
 
-// ─── Reusable horizontal scroll block ────────────────────────────────────────
+function VideoCardLandscape({ project }: { project: VideoProject }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovering, setHovering] = useState(false);
+  const [muted, setMuted] = useState(true);
 
-type Project = (typeof selectedWorks)[0];
+  const onEnter = () => {
+    setHovering(true);
+    videoRef.current?.play().catch(() => {});
+  };
+  const onLeave = () => {
+    setHovering(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
 
-interface HScrollSectionProps {
+  return (
+    <motion.div
+      className="flex-shrink-0 w-[500px] lg:w-[580px] h-[340px] lg:h-[380px] group relative overflow-hidden rounded-3xl cursor-pointer border border-white/5"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      whileHover={{ scale: 0.98 }}
+      transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+    >
+      <video
+        ref={videoRef}
+        src={project.src}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loop muted={muted} playsInline preload="metadata"
+      />
+
+      {/* Dark overlay — lightens on hover */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-80 group-hover:opacity-50 transition-opacity duration-500" />
+
+      {/* Colour glow */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+        style={{ background: `radial-gradient(circle at 50% 80%, ${project.color}, transparent 65%)` }}
+      />
+
+      {/* Info */}
+      <div className="absolute inset-0 p-7 flex flex-col justify-end">
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-[10px] font-black uppercase tracking-[0.3em] mb-2" style={{ color: project.color }}>
+              {project.category}
+            </div>
+            <h3 className="text-2xl lg:text-3xl font-bold uppercase tracking-tighter leading-none">
+              {project.title}
+            </h3>
+            <p className="text-white/40 text-xs mt-1 font-medium">{project.description}</p>
+          </div>
+
+          {/* Controls */}
+          <div className="flex flex-col gap-2 items-center">
+            <div className="w-12 h-12 rounded-full glass-strong flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-6 group-hover:translate-y-0 transition-all duration-400">
+              {hovering ? <Pause fill="white" size={15} /> : <Play fill="white" size={15} className="ml-0.5" />}
+            </div>
+            <button
+              className="w-9 h-9 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-6 group-hover:translate-y-0 transition-all duration-400 delay-75 hover:bg-white/20"
+              onClick={e => { e.stopPropagation(); setMuted(m => !m); }}
+            >
+              {muted ? <VolumeX size={13} /> : <Volume2 size={13} />}
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Video Card (Portrait — Short Form) ───────────────────────────────────────
+
+function VideoCardPortrait({ project }: { project: VideoProject }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovering, setHovering] = useState(false);
+  const [muted, setMuted] = useState(true);
+
+  const onEnter = () => {
+    setHovering(true);
+    videoRef.current?.play().catch(() => {});
+  };
+  const onLeave = () => {
+    setHovering(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  return (
+    <motion.div
+      className="flex-shrink-0 w-[230px] lg:w-[260px] h-[408px] lg:h-[462px] group relative overflow-hidden rounded-3xl cursor-pointer border border-white/5"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      whileHover={{ scale: 0.97 }}
+      transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
+    >
+      <video
+        ref={videoRef}
+        src={project.src}
+        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        loop muted={muted} playsInline preload="metadata"
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-50 transition-opacity duration-500" />
+
+      <div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+        style={{ background: `radial-gradient(circle at 50% 80%, ${project.color}, transparent 60%)` }}
+      />
+
+      {/* Play button center */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-14 h-14 rounded-full glass-strong flex items-center justify-center opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100 transition-all duration-400">
+          {hovering ? <Pause fill="white" size={18} /> : <Play fill="white" size={18} className="ml-1" />}
+        </div>
+      </div>
+
+      {/* Info + mute */}
+      <div className="absolute inset-0 p-5 flex flex-col justify-end">
+        <div className="flex justify-between items-end">
+          <div>
+            <div className="text-[9px] font-black uppercase tracking-[0.3em] mb-1" style={{ color: project.color }}>
+              {project.category}
+            </div>
+            <h3 className="text-lg font-bold uppercase tracking-tighter leading-tight">{project.title}</h3>
+          </div>
+          <button
+            className="w-8 h-8 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-white/20"
+            onClick={e => { e.stopPropagation(); setMuted(m => !m); }}
+          >
+            {muted ? <VolumeX size={12} /> : <Volume2 size={12} />}
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Mobile card (shared) ─────────────────────────────────────────────────────
+
+function VideoCardMobile({ project, portrait = false }: { project: VideoProject; portrait?: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) { videoRef.current.play(); setPlaying(true); }
+    else { videoRef.current.pause(); setPlaying(false); }
+  };
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl cursor-pointer ${portrait ? 'h-[320px]' : 'h-[220px]'}`}
+      onClick={toggle}
+    >
+      <video
+        ref={videoRef}
+        src={project.src}
+        className="w-full h-full object-cover"
+        loop muted playsInline preload="metadata"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-10"
+        style={{ background: `radial-gradient(circle at center, ${project.color}, transparent 70%)` }}
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full glass-strong flex items-center justify-center">
+          {playing ? <Pause fill="white" size={16} /> : <Play fill="white" size={16} className="ml-0.5" />}
+        </div>
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <div className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: project.color }}>
+          {project.category}
+        </div>
+        <h3 className="text-lg font-bold uppercase tracking-tighter leading-none">{project.title}</h3>
+      </div>
+    </div>
+  );
+}
+
+// ─── Horizontal scroll section ─────────────────────────────────────────────────
+
+interface HScrollProps {
   id: string;
-  sectionLabel: string;
   sectionNumber: string;
   headingLine1: string;
   headingLine2: string;
   accentColor: string;
   volText: string;
-  projects: Project[];
+  projects: VideoProject[];
+  portrait?: boolean;
   showCta?: boolean;
 }
 
 function HScrollSection({
-  id,
-  sectionLabel,
-  sectionNumber,
-  headingLine1,
-  headingLine2,
-  accentColor,
-  volText,
-  projects,
-  showCta = false,
-}: HScrollSectionProps) {
+  id, sectionNumber, headingLine1, headingLine2,
+  accentColor, volText, projects, portrait = false, showCta = false,
+}: HScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
+  const triggerRef   = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add('(min-width: 768px)', () => {
       const ctx = gsap.context(() => {
-        ScrollTrigger.refresh();
-        const scrollWidth = containerRef.current?.scrollWidth ?? 0;
-        const windowWidth = window.innerWidth;
-        const amountToScroll = scrollWidth - windowWidth;
+        // Wait a tick so layout paint is complete
+        const timer = setTimeout(() => {
+          const container = containerRef.current;
+          const trigger   = triggerRef.current;
+          if (!container || !trigger) return;
 
-        const pin = gsap.to(containerRef.current, {
-          x: -amountToScroll,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: triggerRef.current,
-            start: 'top top',
-            end: () => `+=${amountToScroll}`,
-            scrub: 1,
-            pin: true,
-            invalidateOnRefresh: true,
-          },
-        });
+          const getAmount = () => container.scrollWidth - window.innerWidth;
 
-        return () => pin.kill();
-      }, containerRef);
+          const tween = gsap.to(container, {
+            x: () => -getAmount(),
+            ease: 'none',
+            scrollTrigger: {
+              trigger,
+              start: 'top top',
+              end: () => `+=${getAmount()}`,
+              scrub: 1.2,
+              pin: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          return () => tween.kill();
+        }, 400);
+
+        return () => clearTimeout(timer);
+      });
 
       return () => ctx.revert();
     });
@@ -169,44 +278,41 @@ function HScrollSection({
 
   return (
     <div id={id} className="overflow-hidden bg-black border-t border-white/5">
+
       {/* ── Desktop: GSAP pinned horizontal scroll ── */}
       <div ref={triggerRef} className="hidden md:block">
         <div
           ref={containerRef}
-          className="h-screen flex items-center px-[8vw] gap-12 lg:gap-20"
+          className={`h-screen flex items-center px-[6vw] ${portrait ? 'gap-6 lg:gap-8' : 'gap-10 lg:gap-14'}`}
         >
           {/* Title panel */}
-          <div className="flex-shrink-0 w-[320px] lg:w-[400px] flex flex-col justify-center">
-            <div
-              className="text-[10px] font-black uppercase tracking-[0.45em] mb-5"
-              style={{ color: accentColor }}
-            >
+          <div className="flex-shrink-0 w-[280px] lg:w-[360px] flex flex-col justify-center">
+            <div className="text-[10px] font-black uppercase tracking-[0.45em] mb-4" style={{ color: accentColor }}>
               {sectionNumber}
             </div>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold uppercase tracking-tighter leading-none mb-5">
-              {headingLine1} <br />
+            <h2 className="text-5xl lg:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-none mb-4">
+              {headingLine1}<br />
               <span style={{ color: accentColor }}>{headingLine2}.</span>
             </h2>
-            <p className="text-white/30 uppercase tracking-widest text-xs font-bold">
-              {volText}
-            </p>
+            <p className="text-white/30 uppercase tracking-widest text-[10px] font-bold">{volText}</p>
           </div>
 
           {/* Cards */}
-          {projects.map((project, i) => (
-            <ProjectCard key={i} project={project} />
-          ))}
+          {projects.map((p, i) =>
+            portrait
+              ? <VideoCardPortrait key={i} project={p} />
+              : <VideoCardLandscape key={i} project={p} />
+          )}
 
-          {/* CTA (only on last section) */}
+          {/* CTA */}
           {showCta && (
-            <div className="flex-shrink-0 w-[320px] lg:w-[360px] flex flex-col justify-center">
-              <div className="p-10 glass rounded-3xl text-center">
-                <h3 className="text-2xl lg:text-3xl font-bold mb-4 uppercase tracking-tighter">
-                  Ready to Create?
-                </h3>
+            <div className="flex-shrink-0 w-[280px] lg:w-[320px] flex flex-col justify-center">
+              <div className="p-8 glass rounded-3xl text-center">
+                <h3 className="text-2xl font-bold mb-3 uppercase tracking-tighter">Ready to Create?</h3>
+                <p className="text-white/40 text-xs mb-6">Let's make something extraordinary together.</p>
                 <a
                   href="#contact"
-                  className="inline-block px-8 py-4 bg-white text-black text-sm font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all"
+                  className="inline-block px-7 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full hover:bg-accent hover:text-white transition-all"
                 >
                   Contact Me
                 </a>
@@ -218,38 +324,30 @@ function HScrollSection({
 
       {/* ── Mobile: native snap-scroll ── */}
       <div className="md:hidden py-10 px-4">
-        <div
-          className="text-[10px] font-black uppercase tracking-[0.4em] mb-2"
-          style={{ color: accentColor }}
-        >
+        <div className="text-[10px] font-black uppercase tracking-[0.4em] mb-2" style={{ color: accentColor }}>
           {sectionNumber}
         </div>
         <h2 className="text-3xl sm:text-4xl font-bold uppercase tracking-tighter leading-none mb-2">
           {headingLine1} <span style={{ color: accentColor }}>{headingLine2}.</span>
         </h2>
-        <p className="text-white/30 uppercase tracking-widest text-[9px] font-bold mb-7">
-          {volText}
-        </p>
+        <p className="text-white/30 uppercase tracking-widest text-[9px] font-bold mb-6">{volText}</p>
 
         <div
           className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory -mx-4 px-4"
           style={{ scrollbarWidth: 'none' }}
         >
-          {projects.map((project, i) => (
-            <div key={i} className="snap-center flex-shrink-0 w-[80vw]">
-              <ProjectCardMobile project={project} />
+          {projects.map((p, i) => (
+            <div key={i} className={`snap-center flex-shrink-0 ${portrait ? 'w-[65vw]' : 'w-[80vw]'}`}>
+              <VideoCardMobile project={p} portrait={portrait} />
             </div>
           ))}
-
           {showCta && (
             <div className="snap-center flex-shrink-0 w-[80vw]">
-              <div className="h-[240px] glass rounded-2xl flex flex-col items-center justify-center gap-4">
-                <h3 className="text-xl font-bold uppercase tracking-tighter">
-                  Ready to Create?
-                </h3>
+              <div className="h-[220px] glass rounded-2xl flex flex-col items-center justify-center gap-4">
+                <h3 className="text-xl font-bold uppercase tracking-tighter">Ready to Create?</h3>
                 <a
                   href="#contact"
-                  className="px-6 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full active:scale-95 transition-transform"
+                  className="px-6 py-3 bg-white text-black text-xs font-bold uppercase tracking-widest rounded-full"
                 >
                   Contact Me
                 </a>
@@ -258,78 +356,6 @@ function HScrollSection({
           )}
         </div>
       </div>
-    </div>
-  );
-}
-
-// ─── Project card (desktop) ───────────────────────────────────────────────────
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <motion.div
-      className="flex-shrink-0 w-[560px] h-[380px] group relative overflow-hidden rounded-3xl"
-      whileHover={{ scale: 0.98 }}
-      transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
-    >
-      <img
-        src={project.thumbnail}
-        alt={project.title}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100"
-      />
-
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent p-8 flex flex-col justify-end">
-        <div className="flex justify-between items-end">
-          <div>
-            <div
-              className="text-xs font-bold uppercase tracking-widest mb-2"
-              style={{ color: project.color }}
-            >
-              {project.category}
-            </div>
-            <h3 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter leading-none">
-              {project.title}
-            </h3>
-          </div>
-          <div className="w-14 h-14 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-8 group-hover:translate-y-0 transition-all duration-500">
-            <Play fill="white" size={18} />
-          </div>
-        </div>
-      </div>
-
-      {/* Per-card colour glow */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-500"
-        style={{ background: `radial-gradient(circle at center, ${project.color}, transparent 70%)` }}
-      />
-    </motion.div>
-  );
-}
-
-// ─── Project card (mobile) ────────────────────────────────────────────────────
-
-function ProjectCardMobile({ project }: { project: Project }) {
-  return (
-    <div className="relative h-[240px] overflow-hidden rounded-2xl">
-      <img
-        src={project.thumbnail}
-        alt={project.title}
-        className="w-full h-full object-cover opacity-80"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-5 flex flex-col justify-end">
-        <div
-          className="text-[10px] font-bold uppercase tracking-widest mb-1"
-          style={{ color: project.color }}
-        >
-          {project.category}
-        </div>
-        <h3 className="text-xl font-bold uppercase tracking-tighter leading-none">
-          {project.title}
-        </h3>
-      </div>
-      <div
-        className="absolute inset-0 pointer-events-none opacity-10"
-        style={{ background: `radial-gradient(circle at center, ${project.color}, transparent 70%)` }}
-      />
     </div>
   );
 }
@@ -368,40 +394,28 @@ export function Portfolio() {
         </div>
       </div>
 
-      {/* ── 2. Selected Works ── */}
-      <HScrollSection
-        id="selected-works"
-        sectionNumber="Vol 01 / Selected Works"
-        sectionLabel="Selected Works"
-        headingLine1="Selected"
-        headingLine2="Works"
-        accentColor="#3b82f6"
-        volText="Explore All Projects / Vol 01"
-        projects={selectedWorks}
-      />
-
-      {/* ── 3. Long Form Edits ── */}
+      {/* ── 2. Long Form Edits (1–5) ── */}
       <HScrollSection
         id="long-form-edits"
-        sectionNumber="Vol 02 / Long Form"
-        sectionLabel="Long Form Edits"
+        sectionNumber="Vol 01 / Long Form"
         headingLine1="Long Form"
         headingLine2="Edits"
         accentColor="#3b82f6"
         volText="Full-Length Cinematic Productions"
         projects={longFormProjects}
+        portrait={false}
       />
 
-      {/* ── 4. Short Form Edits ── */}
+      {/* ── 3. Short Form Edits (6–10) ── */}
       <HScrollSection
         id="short-form-edits"
-        sectionNumber="Vol 03 / Short Form"
-        sectionLabel="Short Form Edits"
+        sectionNumber="Vol 02 / Short Form"
         headingLine1="Short Form"
         headingLine2="Edits"
         accentColor="#a855f7"
         volText="Reels · Shorts · Viral Cuts"
         projects={shortFormProjects}
+        portrait={true}
         showCta
       />
 
@@ -409,7 +423,7 @@ export function Portfolio() {
   );
 }
 
-// ─── Showreel video (unchanged) ───────────────────────────────────────────────
+// ─── Showreel video ───────────────────────────────────────────────────────────
 
 function ShowreelVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -417,13 +431,8 @@ function ShowreelVideo() {
 
   const togglePlay = () => {
     if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+    if (videoRef.current.paused) { videoRef.current.play(); setIsPlaying(true); }
+    else { videoRef.current.pause(); setIsPlaying(false); }
   };
 
   return (
@@ -438,31 +447,23 @@ function ShowreelVideo() {
         ref={videoRef}
         src="/videos/coaching-package-2.mp4"
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
-        loop
-        muted
-        playsInline
-        preload="metadata"
+        loop muted playsInline preload="metadata"
       />
 
       <div
         className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${
-          isPlaying
-            ? 'bg-black/0 opacity-0 hover:opacity-100 hover:bg-black/20'
-            : 'bg-black/40'
+          isPlaying ? 'bg-black/0 opacity-0 hover:opacity-100 hover:bg-black/20' : 'bg-black/40'
         }`}
       >
         <div
           className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full glass-strong flex items-center justify-center transition-transform duration-500 ${
-            isPlaying
-              ? 'scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100'
-              : 'group-hover:scale-110'
+            isPlaying ? 'scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100' : 'group-hover:scale-110'
           }`}
         >
-          {isPlaying ? (
-            <Pause fill="white" size={24} className="sm:w-7 sm:h-7 md:w-8 md:h-8" />
-          ) : (
-            <Play fill="white" size={24} className="ml-1 sm:w-7 sm:h-7 md:w-8 md:h-8" />
-          )}
+          {isPlaying
+            ? <Pause fill="white" size={24} className="sm:w-7 sm:h-7 md:w-8 md:h-8" />
+            : <Play  fill="white" size={24} className="ml-1 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+          }
         </div>
       </div>
 

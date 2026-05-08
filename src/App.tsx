@@ -33,20 +33,17 @@ export default function App() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    // Use GSAP ticker exclusively — no separate requestAnimationFrame loop
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
+    gsap.ticker.lagSmoothing(0);
+
+    // Keep ScrollTrigger in sync with Lenis scroll position
+    lenis.on('scroll', ScrollTrigger.update);
 
     return () => {
+      gsap.ticker.remove((time) => lenis.raf(time * 1000));
       lenis.destroy();
     };
   }, []);

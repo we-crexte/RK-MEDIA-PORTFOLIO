@@ -9,6 +9,7 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Navbar } from './components/Navbar';
+import { CustomCursor } from './components/CustomCursor';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Portfolio } from './components/Portfolio';
@@ -58,7 +59,7 @@ export default function App() {
   });
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-accent selection:text-white overflow-x-hidden">
+    <div className="bg-black text-white min-h-screen font-sans selection:bg-accent selection:text-white overflow-x-hidden md:cursor-none">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-accent to-accent-purple z-[100] origin-left"
@@ -91,8 +92,8 @@ export default function App() {
       {/* Global Background Atmosphere */}
       <div className="fixed inset-0 atmosphere pointer-events-none -z-10" />
       
-      {/* Custom Mouse Cursor Glow — desktop only */}
-      <CursorGlow />
+      {/* Premium Custom Cursor — desktop only, auto-disabled on touch */}
+      <CustomCursor />
     </div>
   );
 }
@@ -112,32 +113,4 @@ function SocialButton({ icon, href, color }: { icon: any, href: string, color: s
   );
 }
 
-function CursorGlow() {
-  const cursorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Only enable on non-touch devices
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouch) return;
-
-    const moveCursor = (e: MouseEvent) => {
-      if (!cursorRef.current) return;
-      gsap.to(cursorRef.current, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.8,
-        ease: 'power3.out'
-      });
-    };
-
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
-  }, []);
-
-  return (
-    <div
-      ref={cursorRef}
-      className="fixed top-0 left-0 w-[400px] h-[400px] -translate-x-1/2 -translate-y-1/2 bg-accent/8 rounded-full blur-[120px] pointer-events-none z-[-5] hidden md:block"
-    />
-  );
-}

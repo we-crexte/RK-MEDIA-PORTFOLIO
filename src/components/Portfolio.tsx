@@ -15,11 +15,11 @@ interface VideoProject {
 }
 
 const longFormProjects: VideoProject[] = [
-  { title: 'Cinematic Cut I',   category: 'Long Form Edit', src: '/videos/1.mp4',  color: '#3b82f6', description: 'Full-length cinematic production' },
-  { title: 'Cinematic Cut II',  category: 'Long Form Edit', src: '/videos/2.mp4',  color: '#a855f7', description: 'Dramatic visual storytelling' },
-  { title: 'Cinematic Cut III', category: 'Long Form Edit', src: '/videos/3.mp4',  color: '#ec4899', description: 'High-octane visual narrative' },
-  { title: 'Cinematic Cut IV',  category: 'Long Form Edit', src: '/videos/4.mp4',  color: '#10b981', description: 'Immersive cinematic motion' },
-  { title: 'Cinematic Cut V',   category: 'Long Form Edit', src: '/videos/5.mp4',  color: '#f59e0b', description: 'Epic production reel' },
+  { title: 'Cinematic Cut I',   category: 'Long Form Edit', src: '/videos/11.mp4', color: '#3b82f6', description: 'Full-length cinematic production' },
+  { title: 'Cinematic Cut II',  category: 'Long Form Edit', src: '/videos/12.mp4', color: '#a855f7', description: 'Dramatic visual storytelling' },
+  { title: 'Cinematic Cut III', category: 'Long Form Edit', src: '/videos/13.mp4', color: '#ec4899', description: 'High-octane visual narrative' },
+  { title: 'Cinematic Cut IV',  category: 'Long Form Edit', src: '/videos/14.mp4', color: '#10b981', description: 'Immersive cinematic motion' },
+  { title: 'Cinematic Cut V',   category: 'Long Form Edit', src: '/videos/15.mp4', color: '#f59e0b', description: 'Epic production reel' },
 ];
 
 const shortFormProjects: VideoProject[] = [
